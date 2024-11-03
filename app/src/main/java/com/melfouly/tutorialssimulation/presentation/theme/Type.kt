@@ -1,4 +1,4 @@
-package com.melfouly.tutorialssimulation.ui.theme
+package com.melfouly.tutorialssimulation.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

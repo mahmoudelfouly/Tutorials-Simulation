@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Tutorials Simulation</string>
+
+    <!--  Navigation tabs  -->
+    <string name="home">Home</string>
+    <string name="connect">Connect</string>
+    <string name="questions">Questions</string>
+    <string name="tools">Tools</string>
+    <string name="profile">Profile</string>
 </resources>
