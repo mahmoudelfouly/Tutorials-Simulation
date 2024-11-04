@@ -19,5 +19,6 @@
     
     <string name="welcome_tutorial">Welcome to:  how to use and enjoy Examate</string>
     <string name="tap_anywhere">Tap anywhere on the screen to continue.</string>
+    <string name="home_tutorial">You will find your study plan here</string>
 
 </resources>
