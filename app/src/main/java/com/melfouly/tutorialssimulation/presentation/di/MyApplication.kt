@@ -1,4 +1,4 @@
-package com.melfouly.tutorialssimulation.presentation
+package com.melfouly.tutorialssimulation.presentation.di
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -14,5 +14,6 @@ val TurquoiseColor300 = Color(0XFF146D6D)
 val TurquoiseColor500 = Color(0XFF0F5252)
 
 val DarkBlue500 = Color(0XFF374151)
+val DarkBlue900 = Color(0XFF090E18)
 
 val Gray50 = Color(0XFFD1D5DB)

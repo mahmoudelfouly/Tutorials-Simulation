@@ -13,6 +13,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.melfouly.tutorialssimulation.R
 import com.melfouly.tutorialssimulation.presentation.theme.DarkBlue500
 import com.melfouly.tutorialssimulation.presentation.theme.GreaterMediumDimen
@@ -30,9 +34,22 @@ import com.melfouly.tutorialssimulation.presentation.theme.TurquoiseColor300
 import com.melfouly.tutorialssimulation.presentation.theme.TurquoiseColor500
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
 
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(Unit) {
+        viewModel.isFirstLaunch()
+    }
+
+    val isFirstLaunchState by viewModel.isFirstLaunchState.collectAsStateWithLifecycle()
+
+    if (isFirstLaunchState) {
+        TutorialBeginningLayer(onDismiss = { viewModel.setFirstLaunchComplete() })
+    }
 
     Column(
         modifier = modifier
