@@ -7,4 +7,14 @@
     <string name="questions">Questions</string>
     <string name="tools">Tools</string>
     <string name="profile">Profile</string>
+
+    <!--  Home  -->
+    <string name="hi">Hi</string>
+    <string name="study_plan">Study Plan</string>
+    <string name="first_phase">Unite 1:\n what is examate</string>
+    <string name="second_phase">Unite 2:\n what is TCF</string>
+    <string name="third_phase">Writing Tasks</string>
+    <string name="fourth_phase">Oral Tasks</string>
+    <string name="fifth_phase">Exam</string>
+
 </resources>
