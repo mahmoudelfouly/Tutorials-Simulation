@@ -1,6 +1,5 @@
 package com.melfouly.tutorialssimulation.presentation.ui.connect
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.melfouly.tutorialssimulation.R
 import com.melfouly.tutorialssimulation.domain.entity.ConnectionEntity
 import com.melfouly.tutorialssimulation.domain.entity.TutorialStep
@@ -56,14 +56,16 @@ fun ConnectScreen(
         viewModel.isFirstLaunch()
     }
 
-    if (tutorialStep.highlightedData != null) {
-        Log.d("TAG", "ConnectScreen: $tutorialStep")
+    val isFirstLaunchState by viewModel.isFirstLaunchState.collectAsStateWithLifecycle()
+
+
+    if (tutorialStep.highlightedData != null && isFirstLaunchState) {
         TutorialOverlay(
             message = tutorialStep.message,
             xOffset = tutorialStep.highlightedData.position.x,
             yOffset = tutorialStep.highlightedData.position.y,
             size = tutorialStep.highlightedData.size,
-            onNext = {}
+            onNext = { viewModel.setFirstLaunchComplete() }
         )
     }
 

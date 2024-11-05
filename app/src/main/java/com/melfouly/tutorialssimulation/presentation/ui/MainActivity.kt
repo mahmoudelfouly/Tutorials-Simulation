@@ -69,7 +69,8 @@ class MainActivity : ComponentActivity() {
                                     highlightedData = if (tabCoordinatesList.isNotEmpty()) {
                                         tabCoordinatesList.find { it.name == NavigationTab.HOME.name }
                                     } else null
-                                )
+                                ),
+                                navigateToNextTutorial = { viewModel.selectTab(NavigationTab.CONNECT) }
                             )
 
                             NavigationTab.CONNECT -> ConnectScreen(
