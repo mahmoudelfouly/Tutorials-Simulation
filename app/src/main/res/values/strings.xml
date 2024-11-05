@@ -16,6 +16,11 @@
     <string name="third_phase">Writing Tasks</string>
     <string name="fourth_phase">Oral Tasks</string>
     <string name="fifth_phase">Exam</string>
+
+    <!--  Connect  -->
+    <string name="suggested_study">Suggested Study Partners:</string>
+    <string name="targeting">Targeting: %s</string>
+    <string name="last_seen">Last seen online: %s</string>
     
     <string name="welcome_tutorial">Welcome to:  how to use and enjoy Examate</string>
     <string name="tap_anywhere">Tap anywhere on the screen to continue.</string>

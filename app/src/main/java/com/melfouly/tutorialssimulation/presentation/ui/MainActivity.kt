@@ -1,7 +1,6 @@
 package com.melfouly.tutorialssimulation.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,6 +24,7 @@ import com.melfouly.tutorialssimulation.presentation.navigation.BottomBar
 import com.melfouly.tutorialssimulation.presentation.navigation.NavigationTab
 import com.melfouly.tutorialssimulation.presentation.theme.PrimaryColor
 import com.melfouly.tutorialssimulation.presentation.theme.TutorialsSimulationTheme
+import com.melfouly.tutorialssimulation.presentation.ui.connect.ConnectScreen
 import com.melfouly.tutorialssimulation.presentation.ui.home.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -56,20 +56,33 @@ class MainActivity : ComponentActivity() {
                     },
                 ) { innerPadding ->
                     Crossfade(targetState = selectedTab, label = "") { destination ->
-                        Log.d("TAG", "onCreate: ${tabCoordinatesList.size}")
-                        HomeScreen(
-                            modifier = Modifier
-                                .background(PrimaryColor)
-                                .padding(innerPadding),
-                            tutorialStep = TutorialStep(
-                                message = stringResource(id = R.string.home_tutorial),
-                                targetScreen = "Home",
-                                highlightedData = if (tabCoordinatesList.isNotEmpty()) {
-                                    tabCoordinatesList.takeWhile { it.name == NavigationTab.HOME.name }
-                                        .first()
-                                } else null
+                        when (destination) {
+                            NavigationTab.HOME -> HomeScreen(
+                                modifier = Modifier
+                                    .background(PrimaryColor)
+                                    .padding(innerPadding),
+                                tutorialStep = TutorialStep(
+                                    message = stringResource(id = R.string.home_tutorial),
+                                    targetScreen = "Home",
+                                    highlightedData = if (tabCoordinatesList.isNotEmpty()) {
+                                        tabCoordinatesList.takeWhile { it.name == NavigationTab.HOME.name }
+                                            .first()
+                                    } else null
+                                )
                             )
-                        )
+
+                            NavigationTab.CONNECT -> ConnectScreen(
+                                modifier = Modifier
+                                    .background(PrimaryColor)
+                                    .padding(innerPadding),
+                            )
+
+                            else -> ConnectScreen(
+                                modifier = Modifier
+                                    .background(PrimaryColor)
+                                    .padding(innerPadding),
+                            )
+                        }
                     }
                 }
             }
