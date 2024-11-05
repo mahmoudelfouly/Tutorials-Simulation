@@ -1,6 +1,7 @@
 package com.melfouly.tutorialssimulation.presentation.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -51,6 +52,7 @@ class MainActivity : ComponentActivity() {
                             selectedTab = selectedTab,
                             onClickTab = viewModel::selectTab,
                             onTabCoordinatesCollected = {
+                                Log.d("TAG", "onCreate: $it")
                                 tabCoordinatesList.addAll(it)
                             })
                     },
@@ -65,8 +67,7 @@ class MainActivity : ComponentActivity() {
                                     message = stringResource(id = R.string.home_tutorial),
                                     targetScreen = "Home",
                                     highlightedData = if (tabCoordinatesList.isNotEmpty()) {
-                                        tabCoordinatesList.takeWhile { it.name == NavigationTab.HOME.name }
-                                            .first()
+                                        tabCoordinatesList.find { it.name == NavigationTab.HOME.name }
                                     } else null
                                 )
                             )
@@ -75,13 +76,18 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .background(PrimaryColor)
                                     .padding(innerPadding),
+                                tutorialStep = TutorialStep(
+                                    message = stringResource(id = R.string.connect_tutorial),
+                                    targetScreen = "Connect",
+                                    highlightedData = if (tabCoordinatesList.isNotEmpty()) {
+                                        tabCoordinatesList.find {
+                                            it.name == NavigationTab.CONNECT.name
+                                        }
+                                    } else null
+                                )
                             )
 
-                            else -> ConnectScreen(
-                                modifier = Modifier
-                                    .background(PrimaryColor)
-                                    .padding(innerPadding),
-                            )
+                            else -> {}
                         }
                     }
                 }

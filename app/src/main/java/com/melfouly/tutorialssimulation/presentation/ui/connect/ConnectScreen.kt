@@ -1,5 +1,6 @@
 package com.melfouly.tutorialssimulation.presentation.ui.connect
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,6 +19,7 @@ import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -30,8 +32,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.melfouly.tutorialssimulation.R
 import com.melfouly.tutorialssimulation.domain.entity.ConnectionEntity
+import com.melfouly.tutorialssimulation.domain.entity.TutorialStep
 import com.melfouly.tutorialssimulation.presentation.theme.Gray100
 import com.melfouly.tutorialssimulation.presentation.theme.GreaterMediumDimen
 import com.melfouly.tutorialssimulation.presentation.theme.LargeDimen
@@ -39,9 +43,29 @@ import com.melfouly.tutorialssimulation.presentation.theme.MediumDimen
 import com.melfouly.tutorialssimulation.presentation.theme.PrimaryColor
 import com.melfouly.tutorialssimulation.presentation.theme.SecondaryColor
 import com.melfouly.tutorialssimulation.presentation.theme.TurquoiseColor100
+import com.melfouly.tutorialssimulation.presentation.ui.common.TutorialOverlay
 
 @Composable
-fun ConnectScreen(modifier: Modifier = Modifier) {
+fun ConnectScreen(
+    modifier: Modifier = Modifier,
+    viewModel: ConnectViewModel = hiltViewModel(),
+    tutorialStep: TutorialStep
+) {
+
+    LaunchedEffect(Unit) {
+        viewModel.isFirstLaunch()
+    }
+
+    if (tutorialStep.highlightedData != null) {
+        Log.d("TAG", "ConnectScreen: $tutorialStep")
+        TutorialOverlay(
+            message = tutorialStep.message,
+            xOffset = tutorialStep.highlightedData.position.x,
+            yOffset = tutorialStep.highlightedData.position.y,
+            size = tutorialStep.highlightedData.size,
+            onNext = {}
+        )
+    }
 
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabsList = listOf("Suggestions", "Chat")

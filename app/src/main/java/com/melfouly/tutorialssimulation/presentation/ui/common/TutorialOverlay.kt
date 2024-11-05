@@ -1,5 +1,6 @@
 package com.melfouly.tutorialssimulation.presentation.ui.common
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
@@ -39,9 +42,15 @@ fun TutorialOverlay(
     onNext: () -> Unit
 ) {
 
+    val context = LocalContext.current
+    val displayMetrics = context.resources.displayMetrics
+
+    val screenWidth = displayMetrics.widthPixels.dp
+    val screenHeight = displayMetrics.heightPixels.dp
     val density = LocalDensity.current
     val widthDp = with(density) { size.width.toDp() }
     val heightDp = with(density) { size.height.toDp() }
+    var messageWidthDp by remember { mutableStateOf(0.dp) }
     var messageHeightDp by remember { mutableStateOf(0.dp) }
 
     Box(
@@ -66,10 +75,32 @@ fun TutorialOverlay(
             modifier = Modifier
                 .onGloballyPositioned { coordinates ->
                     messageHeightDp = coordinates.size.height.dp
+                    messageWidthDp = coordinates.size.width.dp
                 }
                 .offset {
+                    val adjustedXDp =
+                        if (xOffset.roundToInt().dp + messageWidthDp + SmallDimen > screenWidth) {
+                            // Ensure the Box does not go off the right edge of the screen
+                            val overLimitWidthDp =
+                                (xOffset.roundToInt().dp + messageWidthDp + SmallDimen) - screenWidth
+                            Log.d(
+                                "TAG",
+                                "TutorialOverlay: inside if: messageWidth=$messageWidthDp, screenWidth=$screenWidth, total=${xOffset.roundToInt().dp + messageWidthDp + SmallDimen}, overLimit=${(xOffset.roundToInt().dp + messageWidthDp + SmallDimen) - screenWidth}, rightPlace=${(screenWidth.toPx() - xOffset - overLimitWidthDp.toPx()).dp}"
+                            )
+                            0.dp
+//                        (screenWidth.toPx() - xOffset - overLimitWidthDp.toPx()).dp
+//                        screenWidth - messageWidthDp - MediumDimen
+                        } else {
+                            Log.d(
+                                "TAG",
+                                "TutorialOverlay: inside else: ${(xOffset + SmallDimen.toPx()).dp}"
+                            )
+                            (xOffset + SmallDimen.toPx()).dp
+                        }
                     IntOffset(
-                        (xOffset + SmallDimen.toPx()).roundToInt(),
+                        adjustedXDp
+                            .toPx()
+                            .roundToInt(),
                         (yOffset - messageHeightDp.toPx() / 3 - MediumDimen.toPx()).roundToInt()
                     )
                 }

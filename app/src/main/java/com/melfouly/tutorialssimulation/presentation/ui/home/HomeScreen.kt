@@ -61,6 +61,7 @@ fun HomeScreen(
 //    }
 
     if (tutorialStep.highlightedData != null) {
+        Log.d("TAG", "HomeScreen: $tutorialStep")
         TutorialOverlay(
             message = tutorialStep.message,
             xOffset = tutorialStep.highlightedData.position.x,
